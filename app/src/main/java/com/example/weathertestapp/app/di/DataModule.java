@@ -1,7 +1,6 @@
 package com.example.weathertestapp.app.di;
 
 import static com.example.weathertestapp.data.source.remote.ApiConstants.BASE_URL;
-
 import com.example.weathertestapp.data.source.remote.LoggingInterceptor;
 import com.example.weathertestapp.data.source.remote.WeatherService;
 import java.util.concurrent.TimeUnit;

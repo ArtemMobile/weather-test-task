@@ -74,4 +74,11 @@ dependencies {
     // Dagger
     implementation ("com.google.dagger:dagger:2.47")
     annotationProcessor ("com.google.dagger:dagger-compiler:2.47")
+
+    //Gide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    //swiperefresh
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
 }

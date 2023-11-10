@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.Design.BottomNavigationView"
-        android:background="#50C6FF"
+        android:background="@color/blue"
         app:itemTextAppearanceActive="@style/BottomNavigationViewTextStyle"
         app:itemTextAppearanceInactive="@style/BottomNavigationViewTextStyle"
         app:itemIconTint="@color/menu_item_color_selector"
