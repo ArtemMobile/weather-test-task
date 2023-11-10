@@ -1,16 +1,18 @@
 package com.example.weathertestapp.domain.model;
 
 public class WeatherUiModel {
-    private String fullLocation;
-    private String icon;
-    private double temperature;
-    private double wind;
-    private double humidity;
+    private final String fullLocation;
+    private final String icon;
+    private final String condition;
+    private final double temperature;
+    private final double wind;
+    private final double humidity;
 
-    public WeatherUiModel(String fullLocation, String icon, double temperature, double wind, double humidity){
+    public WeatherUiModel(String fullLocation, String icon, double temperature, String condition, double wind, double humidity){
         this.fullLocation = fullLocation;
         this.icon = icon;
         this.temperature = temperature;
+        this.condition = condition;
         this.wind = wind;
         this.humidity = humidity;
     }
@@ -19,39 +21,23 @@ public class WeatherUiModel {
         return fullLocation;
     }
 
-    public void setFullLocation(String fullLocation) {
-        this.fullLocation = fullLocation;
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public String getCondition() {
+        return condition;
     }
 
     public String getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public double getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
     public double getWind() {
         return wind;
     }
 
-    public void setWind(double wind) {
-        this.wind = wind;
-    }
-
     public double getHumidity() {
         return humidity;
-    }
-
-    public void setHumidity(double humidity) {
-        this.humidity = humidity;
     }
 }
