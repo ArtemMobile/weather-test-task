@@ -3,7 +3,6 @@ package com.example.weathertestapp.utils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 

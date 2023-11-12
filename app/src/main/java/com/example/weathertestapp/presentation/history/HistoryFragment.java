@@ -1,38 +1,31 @@
 package com.example.weathertestapp.presentation.history;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.example.weathertestapp.app.WeatherApp;
 import com.example.weathertestapp.app.di.AppComponent;
 import com.example.weathertestapp.data.source.local.sqlite.HistoryModel;
 import com.example.weathertestapp.databinding.FragmentHistoryBinding;
 import com.example.weathertestapp.utils.RxSearch;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class HistoryFragment extends Fragment {
 
-    public HistoryFragment() {
-    }
+    public HistoryFragment() {}
 
     private FragmentHistoryBinding fragmentHistoryBinding;
 
@@ -41,10 +34,10 @@ public class HistoryFragment extends Fragment {
 
     private HistoryAdapter historyAdapter;
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHistoryBinding = FragmentHistoryBinding.inflate(getLayoutInflater());
         return fragmentHistoryBinding.getRoot();
@@ -62,15 +55,6 @@ public class HistoryFragment extends Fragment {
     }
 
     private void applyHistoryAdapter() {
-//        historyAdapter = new HistoryAdapter(id -> {
-//            historyViewModel.deleteWeatherFromHistory(id);
-//            String text;
-//            if(fragmentHistoryBinding.editTextSearch.getText() != null)
-//                text = fragmentHistoryBinding.editTextSearch.getText().toString();
-//            else
-//                text = "";
-//            historyViewModel.getHistoryRecords(text);
-//        });
         historyAdapter = new HistoryAdapter(id -> {
             historyViewModel.deleteWeatherFromHistory(id);
             String text;
@@ -106,7 +90,7 @@ public class HistoryFragment extends Fragment {
         compositeDisposable.add(RxSearch.fromView(fragmentHistoryBinding.editTextSearch)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
-                .switchMap(item -> Observable.just(item))
+                .switchMap(Observable::just)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(query -> historyViewModel.getHistoryRecords(query)));
     }
@@ -125,6 +109,6 @@ public class HistoryFragment extends Fragment {
     }
 
     private void showSnackBar(String text) {
-        Snackbar.make(getView(), text, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(Objects.requireNonNull(getView()), text, Snackbar.LENGTH_SHORT).show();
     }
 }

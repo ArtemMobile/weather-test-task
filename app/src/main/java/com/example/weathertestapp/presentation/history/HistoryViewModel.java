@@ -1,32 +1,28 @@
 package com.example.weathertestapp.presentation.history;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.weathertestapp.data.source.local.sqlite.HistoryModel;
 import com.example.weathertestapp.domain.WeatherUiState;
 import com.example.weathertestapp.domain.usecase.DeleteWeatherFromHistoryUseCase;
 import com.example.weathertestapp.domain.usecase.InsertWeatherToHistoryUseCase;
 import com.example.weathertestapp.domain.usecase.SearchHistoryWeatherUseCase;
 import com.example.weathertestapp.utils.DatabaseTransformer;
-
 import java.util.List;
-
 import javax.inject.Inject;
-
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class HistoryViewModel extends ViewModel {
 
-    private SearchHistoryWeatherUseCase searchHistoryWeatherUseCase;
-    private InsertWeatherToHistoryUseCase insertWeatherToHistoryUseCase;
-    private DeleteWeatherFromHistoryUseCase deleteWeatherFromHistoryUseCase;
+    private final SearchHistoryWeatherUseCase searchHistoryWeatherUseCase;
+    private final InsertWeatherToHistoryUseCase insertWeatherToHistoryUseCase;
+    private final DeleteWeatherFromHistoryUseCase deleteWeatherFromHistoryUseCase;
+
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private final MutableLiveData<WeatherUiState> _weatherHistoryData = new MutableLiveData<>();
     public LiveData<WeatherUiState> weatherHistoryData = _weatherHistoryData;
@@ -47,9 +43,7 @@ public class HistoryViewModel extends ViewModel {
         insertWeatherToHistoryUseCase.invoke(historyModel);
     }
 
-    @SuppressLint("CheckResult")
     public void getHistoryRecords(String searchParam) {
-
         searchHistoryWeatherUseCase.invoke(searchParam).compose(new DatabaseTransformer())
                 .subscribe(new Observer<List<HistoryModel>>() {
                     @Override
