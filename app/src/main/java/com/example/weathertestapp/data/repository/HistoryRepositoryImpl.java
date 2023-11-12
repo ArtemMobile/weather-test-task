@@ -15,16 +15,15 @@ import io.reactivex.rxjava3.core.Observable;
 
 public class HistoryRepositoryImpl implements HistoryRepository {
 
-    private WeatherDbHelper weatherDbHelper;
-    private  SQLiteDatabase dbWrite;
-    private  SQLiteDatabase dbRead;
+    private final SQLiteDatabase dbWrite;
+    private final SQLiteDatabase dbRead;
 
     @Inject
-    public HistoryRepositoryImpl(WeatherDbHelper weatherDbHelper){
-        this.weatherDbHelper = weatherDbHelper;
+    public HistoryRepositoryImpl(WeatherDbHelper weatherDbHelper) {
         this.dbWrite = weatherDbHelper.getWritableDatabase();
         this.dbRead = weatherDbHelper.getReadableDatabase();
     }
+
     @Override
     public Observable<List<HistoryModel>> getHistoryData(String searchParam) {
         String[] projection = {
@@ -36,7 +35,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
                 WeatherContract.WeatherEntry.COLUMN_NAME_WIND,
         };
         String selection = WeatherContract.WeatherEntry.COLUMN_NAME_LOCATION + " LIKE ?";
-        String[] selectionArgs = {"%" +  searchParam  + "%"};
+        String[] selectionArgs = {"%" + searchParam + "%"};
 
         String sortOrder = BaseColumns._ID + " DESC";
         Cursor cursor = dbRead.query(
@@ -48,13 +47,13 @@ public class HistoryRepositoryImpl implements HistoryRepository {
                 null,
                 sortOrder
         );
-        List items = new ArrayList<HistoryModel>();
-        while(cursor.moveToNext()) {
+        List<HistoryModel> items = new ArrayList<>();
+        while (cursor.moveToNext()) {
             long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(WeatherContract.WeatherEntry._ID));
             String fullLocation = cursor.getString(cursor.getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_NAME_LOCATION));
             String condition = cursor.getString(cursor.getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_NAME_CONDITION));
-            Float wind = cursor.getFloat(cursor.getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_NAME_WIND));
-            Float humidity = cursor.getFloat(cursor.getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_NAME_HUMIDITY));
+            float wind = cursor.getFloat(cursor.getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_NAME_WIND));
+            float humidity = cursor.getFloat(cursor.getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_NAME_HUMIDITY));
             String localtime = cursor.getString(cursor.getColumnIndexOrThrow(WeatherContract.WeatherEntry.COLUMN_NAME_TIME));
             items.add(new HistoryModel(itemId, fullLocation, condition, wind, humidity, localtime));
         }
@@ -76,7 +75,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
     @Override
     public void deleteFromHistory(Long id) {
         String selection = BaseColumns._ID + " LIKE ?";
-        String[] selectionArgs = { id.toString() };
+        String[] selectionArgs = {id.toString()};
         dbWrite.delete(WeatherContract.WeatherEntry.TABLE_NAME, selection, selectionArgs);
     }
 }

@@ -3,7 +3,6 @@ package com.example.weathertestapp.app;
 import android.app.Application;
 import com.example.weathertestapp.app.di.AppComponent;
 import com.example.weathertestapp.app.di.DaggerAppComponent;
-import com.example.weathertestapp.data.source.local.sqlite.WeatherDbHelper;
 
 public class WeatherApp extends Application {
 
@@ -13,15 +12,12 @@ public class WeatherApp extends Application {
         return component;
     }
 
-    public WeatherApp() {
-    }
-    public WeatherDbHelper weatherDbHelper;
+    public WeatherApp() {}
 
     @Override
     public void onCreate() {
         super.onCreate();
         component = buildComponent();
-        weatherDbHelper = new WeatherDbHelper(getApplicationContext());
     }
 
     private AppComponent buildComponent() {

@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import io.reactivex.rxjava3.core.Observable;
 
 public class SearchHistoryWeatherUseCase {
-    private HistoryRepository historyRepository;
+    private final HistoryRepository historyRepository;
 
     @Inject
     public SearchHistoryWeatherUseCase(HistoryRepository historyRepository) {

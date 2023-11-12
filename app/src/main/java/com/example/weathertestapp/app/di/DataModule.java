@@ -1,10 +1,7 @@
 package com.example.weathertestapp.app.di;
 
 import static com.example.weathertestapp.data.source.remote.ApiConstants.BASE_URL;
-
 import android.content.Context;
-
-import com.example.weathertestapp.app.WeatherApp;
 import com.example.weathertestapp.data.source.local.sqlite.WeatherDbHelper;
 import com.example.weathertestapp.data.source.remote.LoggingInterceptor;
 import com.example.weathertestapp.data.source.remote.WeatherService;
@@ -61,7 +58,7 @@ public class DataModule {
 
     @Provides
     @Singleton
-    public WeatherService provideUserApiService(Retrofit.Builder retrofit)  {
+    public WeatherService provideUserApiService(Retrofit.Builder retrofit) {
         return retrofit
                 .baseUrl(BASE_URL)
                 .build()
@@ -70,7 +67,7 @@ public class DataModule {
 
     @Provides
     @Singleton
-    public WeatherDbHelper provideSqliteDb(Context context){
+    public WeatherDbHelper provideSqliteDb(Context context) {
         return new WeatherDbHelper(context);
     }
 }

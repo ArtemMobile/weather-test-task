@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.weathertestapp.data.source.local.sqlite.HistoryModel;
 import com.example.weathertestapp.databinding.HistoryCardBinding;
-
 import java.util.Objects;
 
 public class HistoryAdapter extends ListAdapter<HistoryModel, HistoryAdapter.HistoryHolder> {
 
-    private HistoryHolder.OnItemClickListener listener;
+    private final HistoryHolder.OnItemClickListener listener;
+
     protected HistoryAdapter(HistoryHolder.OnItemClickListener listener) {
         super(new TaskDiffCallBack());
         this.listener = listener;
@@ -31,19 +31,19 @@ public class HistoryAdapter extends ListAdapter<HistoryModel, HistoryAdapter.His
     }
 
     class HistoryHolder extends RecyclerView.ViewHolder {
-        private HistoryCardBinding binding;
+        private final HistoryCardBinding binding;
+
         public HistoryHolder(HistoryCardBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        void bind(HistoryModel historyModel){
+        void bind(HistoryModel historyModel) {
             binding.textViewLocation.setText(historyModel.fullLocation());
             binding.textViewConditionAndTemp.setText(historyModel.condition());
             binding.textViewHumidity.setText(String.valueOf(historyModel.humidity()));
             binding.textViewWindSpeed.setText(String.valueOf(historyModel.wind()));
             binding.textViewLocationAndTime.setText(historyModel.localtime());
-//            binding.imageViewDelete.setOnClickListener(view -> );
             binding.imageViewDelete.setOnClickListener(view -> listener.onItemClick(historyModel.Id()));
         }
 
