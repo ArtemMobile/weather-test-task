@@ -27,7 +27,7 @@ public class SearchWeatherByCityNameUseCase {
                 response.getCurrent().getCondition().getText(),
                 response.getCurrent().getWind_kph(),
                 response.getCurrent().getHumidity(),
-                new SimpleDateFormat("dd.MM.yyyy HH:mm").format( new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(response.getLocation().getLocaltime())),
+                new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(response.getLocation().getLocaltime())),
                 response.getLocation().getLat() + ","  + response.getLocation().getLon()
         ));
     }
