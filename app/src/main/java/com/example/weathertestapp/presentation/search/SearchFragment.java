@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.weathertestapp.R;
 import com.example.weathertestapp.app.WeatherApp;
 import com.example.weathertestapp.app.di.AppComponent;
+import com.example.weathertestapp.data.source.local.sqlite.HistoryModel;
 import com.example.weathertestapp.databinding.FragmentSearchBinding;
 import com.example.weathertestapp.domain.model.SearchWeatherUiModel;
 import com.example.weathertestapp.domain.model.WeatherUiModel;
@@ -28,7 +30,8 @@ import javax.inject.Inject;
 
 public class SearchFragment extends Fragment {
 
-    public SearchFragment() {}
+    public SearchFragment() {
+    }
 
     private FragmentSearchBinding fragmentSearchBinding;
     @Inject
@@ -48,6 +51,14 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         applySearchEditor();
         applyWeatherObservers();
+        fragmentSearchBinding.getRoot().setOnClickListener(view1 -> searchViewModel.insertWeatherToHistoryUseCase(
+                new HistoryModel(
+                        fragmentSearchBinding.textViewLocation.getText().toString(),
+                        fragmentSearchBinding.textViewConditionAndTemp.getText().toString(),
+                        Double.parseDouble(fragmentSearchBinding.textViewWindSpeed.getText().toString()),
+                        Double.parseDouble(fragmentSearchBinding.textViewHumidity.getText().toString()),
+                        fragmentSearchBinding.textViewLocationAndTime.getText().toString()
+                )));
     }
 
     private void applySearchEditor() {

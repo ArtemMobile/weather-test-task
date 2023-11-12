@@ -1,16 +1,13 @@
 package com.example.weathertestapp.presentation.search;
 
-import static retrofit2.adapter.rxjava3.Result.response;
-
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.weathertestapp.data.dto.ErrorResponse;
+import com.example.weathertestapp.data.source.local.sqlite.HistoryModel;
 import com.example.weathertestapp.domain.WeatherUiState;
 import com.example.weathertestapp.domain.model.SearchWeatherUiModel;
-import com.example.weathertestapp.domain.model.WeatherUiModel;
+import com.example.weathertestapp.domain.usecase.InsertWeatherToHistoryUseCase;
 import com.example.weathertestapp.domain.usecase.SearchWeatherByCityNameUseCase;
 import com.example.weathertestapp.utils.NetworkTransformer;
 import com.google.gson.Gson;
@@ -18,9 +15,9 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.Objects;
 
 import javax.inject.Inject;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -29,16 +26,18 @@ import retrofit2.HttpException;
 public class SearchViewModel {
 
     private SearchWeatherByCityNameUseCase searchWeatherByCityNameUseCase;
+    private InsertWeatherToHistoryUseCase insertWeatherToHistoryUseCase;
     private final MutableLiveData<WeatherUiState> _currentWeatherData = new MutableLiveData<>();
 
     public LiveData<WeatherUiState> currentWeatherData = _currentWeatherData;
 
     @Inject
-    public SearchViewModel(SearchWeatherByCityNameUseCase searchWeatherByCityNameUseCase){
+    public SearchViewModel(SearchWeatherByCityNameUseCase searchWeatherByCityNameUseCase, InsertWeatherToHistoryUseCase insertWeatherToHistoryUseCase) {
         this.searchWeatherByCityNameUseCase = searchWeatherByCityNameUseCase;
+        this.insertWeatherToHistoryUseCase = insertWeatherToHistoryUseCase;
     }
 
-    public void getWeatherForCity(String city){
+    public void getWeatherForCity(String city) {
         searchWeatherByCityNameUseCase.invoke(city)
                 .compose(new NetworkTransformer())
                 .subscribe(new SingleObserver<SearchWeatherUiModel>() {
@@ -54,10 +53,11 @@ public class SearchViewModel {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        if(e instanceof HttpException){
+                        if (e instanceof HttpException) {
                             try {
                                 String error = ((HttpException) e).response().errorBody().string().toString();
-                                Type type = new TypeToken<ErrorResponse>() {}.getType();
+                                Type type = new TypeToken<ErrorResponse>() {
+                                }.getType();
                                 ErrorResponse errorBody = new Gson().fromJson(error, type);
                                 _currentWeatherData.setValue(new WeatherUiState(null, errorBody.getError().getMessage(), false));
                             } catch (IOException ex) {
@@ -66,5 +66,9 @@ public class SearchViewModel {
                         }
                     }
                 });
+
+    }
+    public void insertWeatherToHistoryUseCase(HistoryModel historyModel){
+        insertWeatherToHistoryUseCase.invoke(historyModel);
     }
 }

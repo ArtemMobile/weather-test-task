@@ -1,7 +1,9 @@
 package com.example.weathertestapp.app.di;
 
+import com.example.weathertestapp.data.repository.HistoryRepositoryImpl;
 import com.example.weathertestapp.data.repository.HomeRepositoryImpl;
 import com.example.weathertestapp.data.repository.SearchRepositoryImpl;
+import com.example.weathertestapp.domain.repository.HistoryRepository;
 import com.example.weathertestapp.domain.repository.HomeRepository;
 import com.example.weathertestapp.domain.repository.SearchRepository;
 
@@ -16,4 +18,6 @@ interface RepositoryModule {
     @Binds
     public SearchRepository provideSearchRepository(SearchRepositoryImpl searchRepositoryImpl);
 
+    @Binds
+    public HistoryRepository provideHistoryRepository(HistoryRepositoryImpl historyRepositoryImpl);
 }

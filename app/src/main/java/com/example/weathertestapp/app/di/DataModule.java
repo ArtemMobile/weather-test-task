@@ -1,6 +1,11 @@
 package com.example.weathertestapp.app.di;
 
 import static com.example.weathertestapp.data.source.remote.ApiConstants.BASE_URL;
+
+import android.content.Context;
+
+import com.example.weathertestapp.app.WeatherApp;
+import com.example.weathertestapp.data.source.local.sqlite.WeatherDbHelper;
 import com.example.weathertestapp.data.source.remote.LoggingInterceptor;
 import com.example.weathertestapp.data.source.remote.WeatherService;
 import java.util.concurrent.TimeUnit;
@@ -63,4 +68,9 @@ public class DataModule {
                 .create(WeatherService.class);
     }
 
+    @Provides
+    @Singleton
+    public WeatherDbHelper provideSqliteDb(Context context){
+        return new WeatherDbHelper(context);
+    }
 }
