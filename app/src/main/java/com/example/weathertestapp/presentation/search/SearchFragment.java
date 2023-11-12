@@ -24,6 +24,7 @@ import com.example.weathertestapp.data.source.local.sqlite.HistoryModel;
 import com.example.weathertestapp.databinding.FragmentSearchBinding;
 import com.example.weathertestapp.domain.model.SearchWeatherUiModel;
 import com.example.weathertestapp.domain.model.WeatherUiModel;
+import com.example.weathertestapp.presentation.history.HistoryViewModel;
 import com.example.weathertestapp.utils.SnackBarAction;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -37,7 +38,8 @@ public class SearchFragment extends Fragment {
     private FragmentSearchBinding fragmentSearchBinding;
     @Inject
     public SearchViewModel searchViewModel;
-
+    @Inject
+    public HistoryViewModel historyViewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class SearchFragment extends Fragment {
 
     private void applyClicks() {
         fragmentSearchBinding.imageViewSaveToHistory.setOnClickListener(view -> {
-            searchViewModel.insertWeatherToHistoryUseCase(new HistoryModel(
+            historyViewModel.insertWeatherToHistoryUseCase(new HistoryModel(
                     null,
                     fragmentSearchBinding.textViewLocation.getText().toString(),
                     fragmentSearchBinding.textViewConditionAndTemp.getText().toString(),

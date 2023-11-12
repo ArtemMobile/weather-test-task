@@ -12,8 +12,11 @@ import com.example.weathertestapp.databinding.HistoryCardBinding;
 import java.util.Objects;
 
 public class HistoryAdapter extends ListAdapter<HistoryModel, HistoryAdapter.HistoryHolder> {
-    protected HistoryAdapter() {
+
+    private HistoryHolder.OnItemClickListener listener;
+    protected HistoryAdapter(HistoryHolder.OnItemClickListener listener) {
         super(new TaskDiffCallBack());
+        this.listener = listener;
     }
 
     @NonNull
@@ -25,7 +28,6 @@ public class HistoryAdapter extends ListAdapter<HistoryModel, HistoryAdapter.His
     @Override
     public void onBindViewHolder(@NonNull HistoryHolder holder, int position) {
         holder.bind(getItem(position));
-
     }
 
     class HistoryHolder extends RecyclerView.ViewHolder {
@@ -41,6 +43,12 @@ public class HistoryAdapter extends ListAdapter<HistoryModel, HistoryAdapter.His
             binding.textViewHumidity.setText(String.valueOf(historyModel.humidity()));
             binding.textViewWindSpeed.setText(String.valueOf(historyModel.wind()));
             binding.textViewLocationAndTime.setText(historyModel.localtime());
+//            binding.imageViewDelete.setOnClickListener(view -> );
+            binding.imageViewDelete.setOnClickListener(view -> listener.onItemClick(historyModel.Id()));
+        }
+
+        public interface OnItemClickListener {
+            void onItemClick(Long id);
         }
 
     }

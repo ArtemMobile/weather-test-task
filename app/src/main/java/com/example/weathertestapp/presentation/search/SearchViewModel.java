@@ -26,7 +26,7 @@ import retrofit2.HttpException;
 public class SearchViewModel {
 
     private SearchWeatherByCityNameUseCase searchWeatherByCityNameUseCase;
-    private InsertWeatherToHistoryUseCase insertWeatherToHistoryUseCase;
+
     private final MutableLiveData<WeatherUiState> _currentWeatherData = new MutableLiveData<>();
 
     public LiveData<WeatherUiState> currentWeatherData = _currentWeatherData;
@@ -34,7 +34,7 @@ public class SearchViewModel {
     @Inject
     public SearchViewModel(SearchWeatherByCityNameUseCase searchWeatherByCityNameUseCase, InsertWeatherToHistoryUseCase insertWeatherToHistoryUseCase) {
         this.searchWeatherByCityNameUseCase = searchWeatherByCityNameUseCase;
-        this.insertWeatherToHistoryUseCase = insertWeatherToHistoryUseCase;
+
     }
 
     public void getWeatherForCity(String city) {
@@ -67,8 +67,5 @@ public class SearchViewModel {
                     }
                 });
 
-    }
-    public void insertWeatherToHistoryUseCase(HistoryModel historyModel){
-        insertWeatherToHistoryUseCase.invoke(historyModel);
     }
 }
