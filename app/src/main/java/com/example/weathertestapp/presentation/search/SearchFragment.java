@@ -2,44 +2,37 @@ package com.example.weathertestapp.presentation.search;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.example.weathertestapp.R;
 import com.example.weathertestapp.app.WeatherApp;
 import com.example.weathertestapp.app.di.AppComponent;
 import com.example.weathertestapp.data.source.local.sqlite.HistoryModel;
 import com.example.weathertestapp.databinding.FragmentSearchBinding;
 import com.example.weathertestapp.domain.model.SearchWeatherUiModel;
-import com.example.weathertestapp.domain.model.WeatherUiModel;
 import com.example.weathertestapp.presentation.history.HistoryViewModel;
-import com.example.weathertestapp.utils.SnackBarAction;
 import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
 
 public class SearchFragment extends Fragment {
 
-    public SearchFragment() {
-    }
+    public SearchFragment() {}
 
     private FragmentSearchBinding fragmentSearchBinding;
+
     @Inject
     public SearchViewModel searchViewModel;
+
     @Inject
     public HistoryViewModel historyViewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,13 +91,13 @@ public class SearchFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void bindWeather(SearchWeatherUiModel weather) {
-        fragmentSearchBinding.textViewLocation.setText(weather.getFullLocation());
-        fragmentSearchBinding.textViewConditionAndTemp.setText(weather.getCondition() + ", " + weather.getTemperature() + "°C");
-        fragmentSearchBinding.textViewHumidity.setText(String.valueOf(weather.getHumidity()));
-        fragmentSearchBinding.textViewWindSpeed.setText(String.valueOf(weather.getWind()));
-        fragmentSearchBinding.textViewLocationAndTime.setText(weather.getLocationLatLon() + " local time: " + weather.getLocaltime());
+        fragmentSearchBinding.textViewLocation.setText(weather.fullLocation());
+        fragmentSearchBinding.textViewConditionAndTemp.setText(weather.condition() + ", " + weather.temperature() + "°C");
+        fragmentSearchBinding.textViewHumidity.setText(String.valueOf(weather.humidity()));
+        fragmentSearchBinding.textViewWindSpeed.setText(String.valueOf(weather.wind()));
+        fragmentSearchBinding.textViewLocationAndTime.setText(weather.locationLatLon() + " local time: " + weather.localtime());
         Glide.with(requireContext())
-                .load(weather.getIcon())
+                .load(weather.icon())
                 .into(fragmentSearchBinding.imageViewIcon);
         fragmentSearchBinding.imageViewHumidity.setVisibility(View.VISIBLE);
         fragmentSearchBinding.imageViewWind.setVisibility(View.VISIBLE);
