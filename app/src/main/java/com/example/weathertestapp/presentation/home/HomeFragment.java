@@ -28,8 +28,7 @@ import javax.inject.Inject;
 
 public class HomeFragment extends Fragment {
 
-    public HomeFragment() {
-    }
+    public HomeFragment() {}
 
     private final String[] permissions = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -55,7 +54,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentMainBinding = FragmentMainBinding.inflate(getLayoutInflater());
-        // Inflate the layout for this fragment
         return fragmentMainBinding.getRoot();
     }
 
@@ -76,15 +74,15 @@ public class HomeFragment extends Fragment {
     private void initLocationListener() {
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
         if (locationPermissionsGranted()) {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(((OnSuccessListener<Location>) location -> {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
                 if (location != null) {
-                    double lat = ((Location) location).getLatitude();
-                    double lon = ((Location) location).getLongitude();
+                    double lat = location.getLatitude();
+                    double lon = location.getLongitude();
                     currentLocation = lat + "," + lon;
                     homeViewModel.getCurrentWeatherData(currentLocation);
                     setOnRefreshListener();
                 }
-            }));
+            });
         }
     }
 
@@ -101,7 +99,6 @@ public class HomeFragment extends Fragment {
                 showSnackBar("Ошибка, проблемы с интернетом...", "Обновить", () -> homeViewModel.getCurrentWeatherData(currentLocation));
             }
             fragmentMainBinding.getRoot().setRefreshing(pending);
-
         });
     }
 
@@ -110,6 +107,8 @@ public class HomeFragment extends Fragment {
         fragmentMainBinding.textViewConditionAndTemp.setText(weather.condition() + ", " + weather.temperature() + "°C");
         fragmentMainBinding.textViewHumidity.setText(String.valueOf(weather.humidity()));
         fragmentMainBinding.textViewWindSpeed.setText(String.valueOf(weather.wind()));
+        fragmentMainBinding.imageViewHumidity.setVisibility(View.VISIBLE);
+        fragmentMainBinding.imageViewWind.setVisibility(View.VISIBLE);
         Glide.with(requireContext())
                 .load(weather.icon())
                 .into(fragmentMainBinding.imageViewIcon);
@@ -129,12 +128,7 @@ public class HomeFragment extends Fragment {
     private void showSnackBar(String text, String actionText, SnackBarAction action) {
         Snackbar snackbar = Snackbar
                 .make(getView(), text, Snackbar.LENGTH_INDEFINITE)
-                .setAction(actionText, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        action.apply();
-                    }
-                });
+                .setAction(actionText, view -> action.apply());
         snackbar.show();
     }
 }
