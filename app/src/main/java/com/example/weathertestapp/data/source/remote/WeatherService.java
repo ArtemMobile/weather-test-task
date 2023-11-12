@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 
 public interface WeatherService {
     @GET(CURRENT_ENDPOINT)
-    public Single<WeatherResponse> getCurrentWeatherForLocation(
+    Single<WeatherResponse> getCurrentWeatherForLocation(
             @Query(KEY) String key,
             @Query(Q) String q
     );
