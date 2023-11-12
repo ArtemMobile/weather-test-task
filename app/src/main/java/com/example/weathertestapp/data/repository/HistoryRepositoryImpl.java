@@ -72,4 +72,11 @@ public class HistoryRepositoryImpl implements HistoryRepository {
         values.put(WeatherContract.WeatherEntry.COLUMN_NAME_LOCATION, historyModel.fullLocation());
         dbWrite.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, values);
     }
+
+    @Override
+    public void deleteFromHistory(Long id) {
+        String selection = BaseColumns._ID + " LIKE ?";
+        String[] selectionArgs = { id.toString() };
+        dbWrite.delete(WeatherContract.WeatherEntry.TABLE_NAME, selection, selectionArgs);
+    }
 }

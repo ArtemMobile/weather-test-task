@@ -1,23 +1,30 @@
 package com.example.weathertestapp.presentation.history;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.example.weathertestapp.app.WeatherApp;
 import com.example.weathertestapp.app.di.AppComponent;
 import com.example.weathertestapp.data.source.local.sqlite.HistoryModel;
 import com.example.weathertestapp.databinding.FragmentHistoryBinding;
 import com.example.weathertestapp.utils.RxSearch;
 import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -55,7 +62,25 @@ public class HistoryFragment extends Fragment {
     }
 
     private void applyHistoryAdapter() {
-        historyAdapter = new HistoryAdapter();
+//        historyAdapter = new HistoryAdapter(id -> {
+//            historyViewModel.deleteWeatherFromHistory(id);
+//            String text;
+//            if(fragmentHistoryBinding.editTextSearch.getText() != null)
+//                text = fragmentHistoryBinding.editTextSearch.getText().toString();
+//            else
+//                text = "";
+//            historyViewModel.getHistoryRecords(text);
+//        });
+        historyAdapter = new HistoryAdapter(id -> {
+            historyViewModel.deleteWeatherFromHistory(id);
+            String text;
+            if (fragmentHistoryBinding.editTextSearch.getText() != null)
+                text = fragmentHistoryBinding.editTextSearch.getText().toString();
+            else
+                text = "";
+
+            historyViewModel.getHistoryRecords(text);
+        });
         fragmentHistoryBinding.recyclerViewHistory.setAdapter(historyAdapter);
         fragmentHistoryBinding.recyclerViewHistory.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
