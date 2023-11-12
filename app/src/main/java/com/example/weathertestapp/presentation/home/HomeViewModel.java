@@ -17,7 +17,6 @@ public class HomeViewModel extends ViewModel {
     private final GetCurrentWeatherFromCurrentLocationUseCase getCurrentWeatherFromCurrentLocationUseCase;
 
     private final MutableLiveData<WeatherUiState> _currentWeatherData = new MutableLiveData<>();
-
     public LiveData<WeatherUiState> currentWeatherData = _currentWeatherData;
 
     @Inject

@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment {
                 showSnackBar("Ошибка, проблемы с интернетом...", "Обновить", () -> homeViewModel.getCurrentWeatherData(currentLocation));
             }
             fragmentMainBinding.getRoot().setRefreshing(pending);
-            showProgressBar(pending);
+
         });
     }
 
@@ -120,13 +120,6 @@ public class HomeFragment extends Fragment {
                 == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void showProgressBar(Boolean visible) {
-        if (visible)
-            fragmentMainBinding.progressBarLoading.setVisibility(View.VISIBLE);
-        else
-            fragmentMainBinding.progressBarLoading.setVisibility(View.GONE);
     }
 
     private void setOnRefreshListener() {
