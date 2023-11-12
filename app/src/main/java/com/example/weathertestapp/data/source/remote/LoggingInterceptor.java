@@ -6,10 +6,9 @@ import javax.inject.Inject;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class LoggingInterceptor implements HttpLoggingInterceptor.Logger {
-    @Inject
-    public LoggingInterceptor (){
 
-    }
+    @Inject
+    public LoggingInterceptor (){}
 
     @Override
     public void log(@NonNull String s) {

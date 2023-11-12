@@ -106,12 +106,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void bindWeather(WeatherUiModel weather) {
-        fragmentMainBinding.textViewLocation.setText(weather.getFullLocation());
-        fragmentMainBinding.textViewConditionAndTemp.setText(weather.getCondition() + ", " + weather.getTemperature() + "°C");
-        fragmentMainBinding.textViewHumidity.setText(String.valueOf(weather.getHumidity()));
-        fragmentMainBinding.textViewWindSpeed.setText(String.valueOf(weather.getWind()));
+        fragmentMainBinding.textViewLocation.setText(weather.fullLocation());
+        fragmentMainBinding.textViewConditionAndTemp.setText(weather.condition() + ", " + weather.temperature() + "°C");
+        fragmentMainBinding.textViewHumidity.setText(String.valueOf(weather.humidity()));
+        fragmentMainBinding.textViewWindSpeed.setText(String.valueOf(weather.wind()));
         Glide.with(requireContext())
-                .load(weather.getIcon())
+                .load(weather.icon())
                 .into(fragmentMainBinding.imageViewIcon);
     }
 
