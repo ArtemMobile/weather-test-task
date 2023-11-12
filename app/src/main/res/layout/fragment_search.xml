@@ -109,4 +109,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageViewSaveToHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_save_24"
+        android:background="@drawable/round_shape"
+        android:padding="12dp"
+        android:visibility="gone"
+        app:tint="@color/white"
+        app:layout_constraintTop_toTopOf="@id/imageViewHumidity"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintBottom_toBottomOf="@id/imageViewWind"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
